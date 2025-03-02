@@ -16,7 +16,7 @@ const App = () => {
   useEffect(() => {
     // Fetch CSRF token when the app loads
     axios
-      .get(`${API_URL}/get-csrf-token/`, { withCredentials: true })
+      .get(`${API_URL}/api/get-csrf-token/`, { withCredentials: true })
       .then((response) => {
         setCsrfToken(response.data.csrfToken);
       })
@@ -33,7 +33,7 @@ const App = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`${API_URL}/visitors/`, formData, {
+      const response = await axios.post(`${API_URL}/api/visitors/`, formData, {
         headers: {
           "Content-Type": "application/json",
           "X-CSRFToken": csrfToken, // Include CSRF token
