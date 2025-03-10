@@ -63,4 +63,10 @@
   .form-container {
     width: 90%;
   }
+  .custom-toast {
+    margin: 2% 10% 2% 10%;
+    width: 70% !important;
+    height: 60px !important;
+    font-size: 14px;
+  }
 }

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const [formData, setFormData] = useState({
@@ -14,7 +16,6 @@ const App = () => {
   const [csrfToken, setCsrfToken] = useState("");
 
   useEffect(() => {
-    // Fetch CSRF token when the app loads
     axios
       .get(`${API_URL}/api/get-csrf-token/`, { withCredentials: true })
       .then((response) => {
@@ -41,6 +42,10 @@ const App = () => {
         withCredentials: true, // Important for sending cookies
       });
       console.log("Response:", response.data);
+      // toast.success(response.data.message);
+      toast.success(response.data.message, {
+        className: "custom-toast",
+      });
       setFormData({ name: "", email: "", purpose: "" });
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -48,39 +53,44 @@ const App = () => {
   };
 
   return (
-    <div className="home-container">
-      <div className="form-container">
-        <h2>Visitor Form</h2>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="name"
-            placeholder="Enter your name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Enter your email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-          <textarea
-            name="purpose"
-            placeholder="Purpose of visit"
-            value={formData.purpose}
-            onChange={handleChange}
-            required
-          />
-          <button type="submit">Submit</button>
-        </form>
-
-        {message && <p className="message">{message}</p>}
+    <>
+      <div className="toast">
+        <ToastContainer />
       </div>
-    </div>
+      <div className="home-container">
+        <div className="form-container">
+          <h2>Visitor Form</h2>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter your name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+            <textarea
+              name="purpose"
+              placeholder="Purpose of visit"
+              value={formData.purpose}
+              onChange={handleChange}
+              required
+            />
+            <button type="submit">Submit</button>
+          </form>
+
+          {message && <p className="message">{message}</p>}
+        </div>
+      </div>
+    </>
   );
 };
 
